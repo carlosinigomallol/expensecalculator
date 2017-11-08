@@ -24,7 +24,7 @@ import javax.faces.context.FacesContext;
 public class Messages extends ResourceBundle {
 
     /** The Constant BUNDLE_NAME. */
-    protected static final String BUNDLE_NAME = "es.rbc.modelosaeat.web.messages";
+    protected static final String BUNDLE_NAME = "es.expensecalculator.web.messages";
     
     /** The Constant BUNDLE_EXTENSION. */
     protected static final String BUNDLE_EXTENSION = "properties";

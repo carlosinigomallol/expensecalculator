@@ -42,10 +42,8 @@
 			<version>2.4</version>
 		</dependency>
 		<!-- Cliente de seguridad -->
-		<dependency>
-			<groupId>es.rbcdexia.security</groupId>
-			<artifactId>security-client</artifactId>
-		</dependency>
+		<!-- <dependency> <groupId>es.rbcdexia.security</groupId> <artifactId>security-client</artifactId> 
+			</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -111,11 +109,14 @@
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>primefaces-extensions</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.rbcis.themes</groupId>
-			<artifactId>rbcis-theme</artifactId>
-		</dependency>
+		<!-- <dependency> <groupId>com.rbcis.themes</groupId> <artifactId>rbcis-theme</artifactId> 
+			</dependency> -->
 
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
 
 		<!-- Procesos ejecutados en segundo plano -->
 		<dependency>
@@ -155,11 +156,8 @@
 			<version>6.0.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.rbc.font</groupId>
-			<artifactId>verdana</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.rbc.font</groupId> <artifactId>verdana</artifactId> 
+			<version>1.0.0</version> </dependency> -->
 
 	</dependencies>
 

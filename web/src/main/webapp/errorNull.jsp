@@ -17,7 +17,7 @@
 	
 	<div align="center">
 	<h2>ERROR EN LA APLICACION</h2>
-	<h3><a href="/calculadoragastos/login.xhtml">Redirigir a Calculadora</a></h3>
+	<h3><a href="/expensecalcularor/initial.xhtml">Redirigir a Calculadora</a></h3>
 	</div>
 </body>
 </html>

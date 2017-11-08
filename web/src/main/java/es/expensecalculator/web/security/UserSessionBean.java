@@ -64,7 +64,7 @@ public class UserSessionBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        getInformacionRoles();
+        
     }
 
     public Boolean getActivos() {
@@ -89,43 +89,6 @@ public class UserSessionBean implements Serializable {
 
     public void setNacionalidad(List<SelectItem> nacionalidad) {
         this.nacionalidad = nacionalidad;
-    }
-
-    /**
-     * Devueve el login de usuario.
-     * 
-     * @return the user name
-     */
-    public String getUserName() {
-        return SecurityClientFacade.getInstance().getUserName();
-    }
-
-    /**
-     * Devueve el nombre de usuario (Nombre y apellidos).
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return SecurityClientFacade.getInstance().getName();
-    }
-
-    /**
-     * Gets the informacion roles.
-     * 
-     * @return the informacion roles
-     */
-    public List<String> getInformacionRoles() {
-        //Roles puede tener varios roles (operador y supervisor. Se encargara el modulo de supervision de ejercer el control para no supervisarse a si mismo)
-        roles = new ArrayList<String>();
-        //Empresas relacionadas con el usuario (si hay varias habría que tocar el index.xml para que redirigiera a una pagina de seleccion de rol por empresa)
-        companies = new ArrayList<String>();
-        for (String company : SecurityClientFacade.getInstance().getCompanies()) {
-            for (String rol : SecurityClientFacade.getInstance().getRoles(company)) {
-                roles.add(rol);
-            }
-            companies.add(company);
-        }
-        return roles;
     }
 
     /**

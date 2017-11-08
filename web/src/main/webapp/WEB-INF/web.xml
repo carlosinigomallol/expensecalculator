@@ -20,7 +20,7 @@
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>rbcis-theme</param-value>
+		<param-value>home</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
@@ -44,10 +44,6 @@
 
 
 
-<filter>
-		<filter-name>LogoutFilter</filter-name>
-		<filter-class>es.expensecalculator.web.filter.LogoutFilter</filter-class>
-	</filter>
 
 
 	<filter>
@@ -79,27 +75,7 @@
 		<param-value>Development</param-value>
 	</context-param>
 
-	<!-- Welcome Page -->
-	<!-- <welcome-file-list> -->
-	<!-- <welcome-file>/pages/index.xhtml</welcome-file> -->
-	<!-- </welcome-file-list> -->
-
-
-	<!-- Security-client: Filtro autenticación -->
-	<!-- <filter> -->
-	<!-- <filter-name>AuthenticateFilter</filter-name> -->
-	<!-- <filter-class>es.rbcdexia.security.client.filter.AuthenticateFilter</filter-class> -->
-	<!-- </filter> -->
-	<!-- <filter-mapping> -->
-	<!-- <filter-name>AuthenticateFilter</filter-name> -->
-	<!-- <url-pattern>/*</url-pattern> -->
-	<!-- <dispatcher>INCLUDE</dispatcher> -->
-	<!-- <dispatcher>FORWARD</dispatcher> -->
-	<!-- <dispatcher>REQUEST</dispatcher> -->
-	<!-- <dispatcher>ERROR</dispatcher> -->
-	<!-- </filter-mapping> -->
-
-
+	
 	<!-- JSF Servlet is defined to container -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>

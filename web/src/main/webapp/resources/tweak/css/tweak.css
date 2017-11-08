@@ -8,14 +8,16 @@
 }
 
 .ui-button.boolean-button.ui-state-active {
+	/*
 	background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_highlight-soft_60_002d93_1x100.png']}") repeat-x scroll 50% 50% #002D93 !important;
+	*/
     border: 1px solid #002D93;
     color: #FFFFFF;
     font-weight: bold;
 }
 
 .ui-button.boolean-button.ui-state-default {
-	background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_flat_60_ffffff_40x100.png']}") repeat-x scroll 50% 50% #FFFFFF !important;
+	/*background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_flat_60_ffffff_40x100.png']}") repeat-x scroll 50% 50% #FFFFFF !important;*/
     border: 1px solid #AAAAAA;
     color: #00234C;
     font-weight: bold;	
@@ -24,45 +26,12 @@
 .ui-button.boolean-button-fixed.ui-state-default,
 .ui-button.boolean-button-fixed.ui-state-active,
 .ui-button.boolean-button-fixed.ui-state-hover {
-	background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_highlight-soft_60_d0d7e7_1x100.png']}") repeat-x scroll 50% 50% #D0D7E7 !important;
+	/*background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_highlight-soft_60_d0d7e7_1x100.png']}") repeat-x scroll 50% 50% #D0D7E7 !important;*/
     border: 1px solid #00234C !important;
     color: #00234C;
     font-weight: bold;
 }
 
 .boolean-button-fixed .ui-icon {
-	background-image: url("#{resource['primefaces-rbcis-theme:images/ui-icons_002d93_256x240.png']}");
+	/*background-image: url("#{resource['primefaces-rbcis-theme:images/ui-icons_002d93_256x240.png']}");*/
 }    
-
-
-/*
-.ui-chkbox-box.ui-state-default,
-.ui-radiobutton-box.ui-state-default {
-    background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_flat_60_ffffff_40x100.png']}") repeat-x scroll 50% 50% #FFFFFF !important;
-    border: 1px solid #002D93 !important;
-    color: #FFFFFF !important;
-    box-shadow: 0 2px 2px #8F8F8F inset;
-    font-weight: bold;
-}
-
-
-.ui-chkbox-box.ui-state-active,
-.ui-radiobutton-box.ui-state-active {
-    background: url("#{resource['primefaces-rbcis-theme:images/ui-bg_highlight-soft_60_002d93_1x100.png']}") repeat-x scroll 50% 50% #002D93 !important;
-    border: 1px solid #002D93 !important;
-    color: #00234C !important;
-    font-weight: bold;
-    box-shadow: none;
-}
-
-
-.ui-state-active .ui-chkbox-icon,
-.ui-state-active .ui-radiobutton-icon
-{
-    background-image: url("#{resource['primefaces-rbcis-theme:images/ui-icons_cdbe21_256x240.png']}") !important;
-}
-
-.ui-chkbox-box {
-	border-radius: 4px 4px 4px 4px !important;
-}
-*/

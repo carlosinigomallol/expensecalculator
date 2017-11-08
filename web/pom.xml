@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>es.expensecalculator</groupId>
+		<artifactId>expensecalculator</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>expensecalculator-web</artifactId>
+	<name>web</name>
+	<description>Aplicación web del sistema</description>
+	<packaging>war</packaging>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>es.expensecalculator</groupId>
+			<artifactId>expensecalculator-model</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>es.expensecalculator</groupId>
+			<artifactId>expensecalculator-services</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<!-- Cliente de seguridad -->
+		<dependency>
+			<groupId>es.rbcdexia.security</groupId>
+			<artifactId>security-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- JSF 2.1 (Mojarra) -->
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<!-- primefaces -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.rbcis.themes</groupId>
+			<artifactId>rbcis-theme</artifactId>
+		</dependency>
+
+
+		<!-- Procesos ejecutados en segundo plano -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+
+		<!-- Peticion excel y PDF paginas web -->
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+		</dependency>
+
+		<!-- prettyfaces -->
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+		</dependency>
+
+
+		<!-- omnifaces ( http://code.google.com/p/omnifaces/ ) -->
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>6.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.rbc.font</groupId>
+			<artifactId>verdana</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<filters>
+			<filter>src/main/filters/filter-${environment}.properties</filter>
+		</filters>
+
+		<!-- Habilita el filtrado en los recursos -->
+		<!-- <resources> -->
+		<!-- <resource> -->
+		<!-- <directory>src/main/resources</directory> -->
+		<!-- <filtering>true</filtering> -->
+		<!-- </resource> -->
+		<!-- </resources> -->
+		<plugins>
+			<!-- maven-war-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin.version}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<!--<warName>${project.parent.artifactId}-${environment}-${project.version}</warName> -->
+					<warName>expensecalculator</warName>
+				</configuration>
+
+			</plugin>
+		</plugins>
+	</build>
+</project>

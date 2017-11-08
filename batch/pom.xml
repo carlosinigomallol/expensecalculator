@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>es.expensecalculator</groupId>
+		<artifactId>expensecalculator</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>expensecalculatort-batch</artifactId>
+	<name>batch</name>
+	<description>Módulo de procesos batch del sistema</description>
+	<packaging>jar</packaging>
+
+	<properties>
+		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>es.expensecalculator</groupId>
+			<artifactId>expensecalculator-model</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>es.expensecalculator</groupId>
+			<artifactId>expensecalculator-services</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-test</artifactId>
+	  		<scope>test</scope>
+	  	</dependency>
+	</dependencies>
+	<build>
+		<finalName>${project.artifactId}-${environment}-${project.version}</finalName>
+		<filters>
+			<filter>src/main/filters/filter-${environment}.properties</filter>
+		</filters>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>src/main/assembly/expensecalculator-batch.xml</descriptor>
+					</descriptors>
+					<encoding>ISO-8859-1</encoding>
+					<finalName>${project.artifactId}-${environment}-${project.version}</finalName>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

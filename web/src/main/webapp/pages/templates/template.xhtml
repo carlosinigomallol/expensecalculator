@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<f:view>
+	<ui:insert name="metadata" />
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>#{msg.template_title}</title>
+		<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+		<h:outputScript name="template.js" library="js" target="head" />
+		<h:outputStylesheet name="css/tweak.css" library="tweak" />
+		<link rel="shortcut icon"
+			href="#{request.contextPath}/img/favicon.ico" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/stylesheet/styles.css" type="text/css"
+			media="screen" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/stylesheet/banner.css" type="text/css"
+			media="screen" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/stylesheet/font-awesome.min.css"
+			type="text/css" media="screen" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/resources/tweak/css/tweak.css"
+			type="text/css" media="screen" />
+
+		<ui:insert name="head" />
+	</h:head>
+	<h:body>
+		<p:idleMonitor timeout="#{session.maxInactiveInterval * 1000}"
+			onidle="PF('dlgIdle').show()" />
+		<div id="container">
+			<div id="header">
+				<ui:include src="/pages/templates/header.xhtml" />
+			</div>
+			<div id="body" class="body">
+				<p:toolbar id="toolbar">
+					<p:toolbarGroup align="left">
+						<h:form id="bcForm">
+							<p:breadCrumb id="bc" style="border: none; background: none;">
+								<p:menuitem value="#{msg.menu_home}" url="/index.html"
+									ajax="false" />
+								<p:menuitem value="Portada" url="/index.html" ajax="false" />
+							</p:breadCrumb>
+						</h:form>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<div style="text-align: right; margin: 5px 7px;">
+							<h:form id="salida">
+								<p:commandButton id="loggout2" value="Logout"
+									action="#{authenticator.logout()}" icon="ui-icon-extlink" />
+							</h:form>
+						</div>
+					</p:toolbarGroup>
+				</p:toolbar>
+				<h:outputScript library="js" name="ajax-status.js" target="head" />
+				<p:ajaxStatus id="ajaxStatusCursor" onstart="busy();"
+					oncomplete="idle();" />
+				<p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<span> <h:graphicImage value="/img/loading.gif"
+								style="vertical-align: middle" />
+							&#160;#{msg.template_loading}...
+						</span>
+					</f:facet>
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+				<p:dialog id="dialogIdle" widgetVar="dlgIdle" modal="true"
+					resizable="false" closable="false" showHeader="false">
+					<div style="width: 400px; text-align: center;">
+						<h3>La sesión ha caducado.</h3>
+						<p>Han transcurrido
+							#{of:formatNumber(session.maxInactiveInterval / 60, '#')} minutos
+							de inactividad.</p>
+						<br />
+						<div class="actionButtons">
+							<h:form id="salida2">
+								<p:commandButton id="loggout3" value="Logout"
+									action="#{authenticator.logout()}" icon="ui-icon-extlink" />
+							</h:form>
+						</div>
+					</div>
+				</p:dialog>
+				<ui:include src="/pages/templates/menu.xhtml" />
+				<br /> <br />
+				<ui:insert name="body" />
+
+			</div>
+			<div id="footer">
+				<ui:include src="/pages/templates/footer.xhtml" />
+			</div>
+		</div>
+		<ui:debug></ui:debug>
+	</h:body>
+</f:view>
+</html>

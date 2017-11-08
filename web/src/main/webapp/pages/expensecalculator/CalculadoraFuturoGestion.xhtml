@@ -1,0 +1,698 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/pages/templates/template.xhtml">
+	<ui:define name="body">
+
+		<script type="text/javascript">
+			function handleDrop(event, ui) {
+				var droppedVar = ui.draggable;
+				droppedVar.fadeOut('fast');
+			}
+		</script>
+
+		<h:form id="seleccionarPlan">
+			<p:growl id="growlPlanning" sticky="true" showDetail="true"
+				life="3000" />
+			<p:fieldset id="availableOptions" legend="Seleccione una acción">
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+					<p:selectOneRadio id="console"
+						value="#{calculadoraFuturoGestionManagedBean.planCombo}">
+						<f:selectItem itemLabel="Nuevo plan" itemValue="N" />
+						<f:selectItem itemLabel="Seleccionar plan" itemValue="S" />
+						<p:ajax event="change" 
+							update=":formSaldoInicial,:carForm,:seleccionarPlan"
+							listener="#{calculadoraFuturoGestionManagedBean.inicializarDatosPorCambioPlanCombo()}" />
+					</p:selectOneRadio>
+				</h:panelGrid>
+
+
+				<h:panelGrid columns="3" cellpadding="5"
+					rendered="#{calculadoraFuturoGestionManagedBean.planCombo eq 'S'}">
+					<p:outputLabel for="planField" value="Plan" />
+					<p:autoComplete dropdown="true" maxResults="20" minQueryLength="3"
+						value="#{calculadoraFuturoGestionManagedBean.planSeleccionadoCombo}"
+						id="planField"
+						completeMethod="#{calculadoraFuturoGestionManagedBean.completarPlan}"
+						var="plan" itemLabel="#{plan.getDescripcionPlan()}"
+						itemValue="#{plan}" converter="#{planConverter}"
+						forceSelection="true" title="Plan">
+						<p:ajax event="itemSelect" update=":formSaldoInicial,:carForm,:seleccionarPlan"
+							listener="#{calculadoraFuturoGestionManagedBean.rellenarFormularioConPlanSeleccionado()}" />
+					</p:autoComplete>
+					<p:watermark for="planField" value="Plan" />
+				</h:panelGrid>
+				<p:commandButton id="borrarPlan" value="Borrar" icon="ui-icon-trash"
+					update="growlPlanning,:formSaldoInicial,:carForm,:seleccionarPlan"
+					rendered="#{calculadoraFuturoGestionManagedBean.planSeleccionadoCombo!=null}"
+					actionListener="#{calculadoraFuturoGestionManagedBean.borrarPlan()}">
+				</p:commandButton>
+			</p:fieldset>
+
+
+
+		</h:form>
+		<br />
+
+		<h:form id="formSaldoInicial">
+			<p:growl id="growl2" sticky="true" showDetail="true" life="3000" />
+
+
+
+
+
+
+			<div style="width: 500px; margin-left: auto; margin-right: auto;">
+				<p:panel header="Gestión del saldo inicial"
+					rendered="#{calculadoraFuturoGestionManagedBean.planCombo eq 'N' or calculadoraFuturoGestionManagedBean.planSeleccionadoCombo!=null}">
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel for="saldoinicial" value="Saldo inicial:" />
+						<h:inputText required="true" id="saldoinicial"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoInicial.totalMovimiento}" />
+						<p:outputLabel for="fechaInicioInicial" value="Fecha:" />
+						<p:calendar id="fechaInicioInicial" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoInicial.fechaInicio}"
+							navigator="true" pattern="yyyy-MM-dd" />
+					</h:panelGrid>
+					<div class="actionButtons">
+						<p:commandButton id="per" value="Grabar inicial" update="growl2"
+							actionListener="#{calculadoraFuturoGestionManagedBean.perisitirSaldoInicial()}">
+						</p:commandButton>
+					</div>
+				</p:panel>
+			</div>
+		</h:form>
+		<p:spacer height="20" />
+		<h:form id="carForm">
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+			<p:wizard id="wizardMovimientos"
+				flowListener="#{calculadoraFuturoGestionManagedBean.onFlowProcess}"
+				rendered="#{calculadoraFuturoGestionManagedBean.planCombo eq 'N' or calculadoraFuturoGestionManagedBean.planSeleccionadoCombo!=null}">
+				<p:tab id="personal" title="Movimiento a fecha">
+					<p:panel header="Movimiento a fecha">
+						<div class="actionButtons">
+							<p:commandButton update=":form4:displayNewMovPlan"
+								actionListener="#{calculadoraFuturoGestionManagedBean.crearRegistroMovientoPlan()}"
+								oncomplete="PF('movimientoNuevoPlanDialog').show()"
+								value="Nuevo movimiento" icon="ui-icon-edit">
+								<p:resetInput target=":form4:displayNewMovPlan" />
+							</p:commandButton>
+
+						</div>
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:fieldset id="availableCarsField"
+								legend="Movimientos a fecha a seleccionar">
+								<p:dataTable id="availableCars" var="car"
+									value="#{calculadoraFuturoGestionManagedBean.movimientoPlansList}">
+									<p:column headerText="Acción">
+										<h:panelGrid columns="2">
+											<p:commandButton update=":carForm:display"
+												oncomplete="PF('movimientoPlanDialog').show()"
+												icon="ui-icon-search">
+												<f:setPropertyActionListener value="#{car}"
+													target="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPlan}" />
+											</p:commandButton>
+											<p:commandButton update=":carForm"
+												actionListener="#{calculadoraFuturoGestionManagedBean.borrarMov(car)}"
+												icon="ui-icon-trash">
+											</p:commandButton>
+										</h:panelGrid>
+									</p:column>
+
+
+									<p:column headerText="Descripción">
+										<h:outputText value="#{car.descripcion}" />
+									</p:column>
+
+									<p:column headerText="Fecha">
+										<h:outputText value="#{car.fechaInicio}">
+											<f:convertDateTime pattern="yyyy-MM-dd" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Cantidad">
+										<h:outputText value="#{car.totalMovimiento}" />
+									</p:column>
+
+									<p:column headerText="Tipo">
+										<h:outputText value="Movimiento a fecha" />
+									</p:column>
+
+									<p:column style="width:20px">
+										<h:outputText id="dragIcon"
+											styleClass="ui-icon ui-icon-arrow-4" />
+										<p:draggable for="dragIcon" revert="true" helper="clone" />
+									</p:column>
+
+
+
+								</p:dataTable>
+
+								<div class="actionButtons">
+									<p:commandButton value="Mover todos"
+										action="#{calculadoraFuturoGestionManagedBean.moverTodos()}"
+										update=":carForm" icon="ui-icon-pencil" />
+								</div>
+
+							</p:fieldset>
+
+							<p:fieldset id="selectedCars"
+								legend="Movimientos a fecha seleccionados para plan de calculo de saldos"
+								style="margin-top:20px">
+								<p:outputPanel id="dropArea1">
+									<h:outputText value="Arrastra aquí los movimientos a fecha"
+										rendered="#{empty calculadoraFuturoGestionManagedBean.movimientoPlansListDropped}"
+										style="font-weight:bold;" />
+									<p:dataTable id="selectedCarsTable" var="car"
+										value="#{calculadoraFuturoGestionManagedBean.movimientoPlansListDropped}"
+										rendered="#{not empty calculadoraFuturoGestionManagedBean.movimientoPlansListDropped}">
+										<p:column headerText="Descripción">
+											<h:outputText value="#{car.descripcion}" />
+										</p:column>
+
+										<p:column headerText="Fecha">
+											<h:outputText value="#{car.fechaInicio}">
+												<f:convertDateTime pattern="yyyy-MM-dd" />
+											</h:outputText>
+										</p:column>
+
+										<p:column headerText="Cantidad">
+											<h:outputText value="#{car.totalMovimiento}" />
+										</p:column>
+
+
+										<p:column headerText="Tipo">
+											<h:outputText value="Movimiento a fecha" />
+										</p:column>
+
+										<p:column style="width:32px">
+											<p:commandButton id="ajax" icon="ui-icon-trash"
+												update=":carForm"
+												actionListener="#{calculadoraFuturoGestionManagedBean.borrar(car)}" />
+										</p:column>
+
+									</p:dataTable>
+								</p:outputPanel>
+							</p:fieldset>
+
+							<p:dialog header="Detalle de movimiento"
+								widgetVar="movimientoPlanDialog" resizable="false"
+								draggable="false" showEffect="fade" hideEffect="fade"
+								modal="true">
+								<p:ajax event="close" update=":carForm" />
+								<p:outputPanel id="display">
+									<h:panelGrid columns="2" cellpadding="5"
+										rendered="#{not empty calculadoraFuturoGestionManagedBean.selectedMovimientoPlan}">
+
+										<p:outputLabel for="descripcionMP2" value="Descripción:" />
+										<h:inputText required="true" id="descripcionMP2"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPlan.descripcion}" />
+										<p:outputLabel for="fechaInicioMP2" value="Fecha inicio:" />
+										<p:calendar id="fechaInicioMP2" required="true"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPlan.fechaInicio}"
+											navigator="true" pattern="yyyy-MM-dd" />
+										<p:outputLabel for="fechaFinMP2" value="Fecha fin:" />
+										<p:calendar id="fechaFinMP2" required="true"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPlan.fechaFin}"
+											navigator="true" pattern="yyyy-MM-dd" />
+										<p:outputLabel for="saldoMP2" value="Saldo:" />
+										<h:inputText required="true" id="saldoMP2"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPlan.totalMovimiento}" />
+									</h:panelGrid>
+								</p:outputPanel>
+
+								<div class="actionButtons">
+									<p:commandButton value="Modificar sin actualizar"
+										action="#{calculadoraFuturoGestionManagedBean.actualizarDatosMovimiento(calculadoraFuturoGestionManagedBean.selectedMovimientoPlan)}"
+										oncomplete="if (!args.validationFailed) {PF('movimientoPlanDialog').hide();}"
+										update=":carForm" icon="ui-icon-pencil" />
+									<p:commandButton value="Modificar actualizando"
+										action="#{calculadoraFuturoGestionManagedBean.actualizarBDDatosMovimiento(calculadoraFuturoGestionManagedBean.selectedMovimientoPlan)}"
+										oncomplete="if (!args.validationFailed) {PF('movimientoPlanDialog').hide();}"
+										update=":carForm" icon="ui-icon-pencil" />
+								</div>
+
+							</p:dialog>
+						</h:panelGrid>
+
+
+
+
+						<p:droppable for="selectedCars" tolerance="touch"
+							activeStyleClass="ui-state-highlight" datasource="availableCars"
+							onDrop="handleDrop">
+							<p:ajax
+								listener="#{calculadoraFuturoGestionManagedBean.onMovimientoPlanDrop}"
+								update="dropArea1 availableCars" />
+						</p:droppable>
+					</p:panel>
+
+				</p:tab>
+				<p:tab id="address" title="Movimiento periódico">
+					<p:panel header="Movimiento periódico">
+						<div class="actionButtons">
+							<p:commandButton update=":form5:displayNewMovPeriodicoPlan"
+								actionListener="#{calculadoraFuturoGestionManagedBean.crearRegistroMovientoPeriodicoPlan()}"
+								oncomplete="PF('movimientoPeriodicoNuevoPlanDialog').show()"
+								value="Nuevo movimiento periodico" icon="ui-icon-edit">
+								<p:resetInput target=":form5:displayNewMovPeriodicoPlan" />
+							</p:commandButton>
+
+						</div>
+
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:fieldset id="availableCarsField2"
+								legend="Movimiento a fecha a seleccionar">
+								<p:dataTable id="availableCars2" var="car"
+									value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoPlansList}">
+
+									<p:column headerText="Acción">
+										<h:panelGrid columns="2">
+											<p:commandButton update=":carForm:displayMovimientoPeriodico"
+												oncomplete="PF('movimientoPeriodicoPlanDialog').show()"
+												icon="ui-icon-search">
+												<f:setPropertyActionListener value="#{car}"
+													target="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan}" />
+											</p:commandButton>
+											<p:commandButton update=":carForm"
+												actionListener="#{calculadoraFuturoGestionManagedBean.borrarMovPeriodico(car)}"
+												icon="ui-icon-trash">
+											</p:commandButton>
+										</h:panelGrid>
+									</p:column>
+
+									<p:column headerText="Descripción">
+										<h:outputText value="#{car.descripcion}" />
+									</p:column>
+
+									<p:column headerText="Fecha ini.">
+										<h:outputText value="#{car.fechaInicio}">
+											<f:convertDateTime pattern="yyyy-MM-dd" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Fecha fin">
+										<h:outputText value="#{car.fechaFin}">
+											<f:convertDateTime pattern="yyyy-MM-dd" />
+										</h:outputText>
+
+									</p:column>
+
+									<p:column headerText="Cantidad">
+										<h:outputText value="#{car.cantidad}" />
+									</p:column>
+
+
+									<p:column headerText="Tipo">
+										<h:outputText value="Movimiento periódico" />
+									</p:column>
+
+									<p:column style="width:20px">
+										<h:outputText id="dragIcon"
+											styleClass="ui-icon ui-icon-arrow-4" />
+										<p:draggable for="dragIcon" revert="true" helper="clone" />
+									</p:column>
+
+
+								</p:dataTable>
+
+								<div class="actionButtons">
+									<p:commandButton value="Mover todos"
+										action="#{calculadoraFuturoGestionManagedBean.moverTodosMP()}"
+										update=":carForm" icon="ui-icon-pencil" />
+								</div>
+							</p:fieldset>
+
+							<p:fieldset id="selectedCars2"
+								legend="Movimientos periódicos seleccionados"
+								style="margin-top:20px">
+								<p:outputPanel id="dropArea2">
+									<h:outputText value="Arrastra aquí los movimientos periódicos"
+										rendered="#{empty calculadoraFuturoGestionManagedBean.movimientoPeriodicoPlansListDropped}"
+										style="font-weight:bold;" />
+									<p:dataTable id="selectedCarsTable2" var="car"
+										value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoPlansListDropped}"
+										rendered="#{not empty calculadoraFuturoGestionManagedBean.movimientoPeriodicoPlansListDropped}">
+										<p:column headerText="Descripción">
+											<h:outputText value="#{car.descripcion}" />
+										</p:column>
+
+										<p:column headerText="Fecha ini.">
+											<h:outputText value="#{car.fechaInicio}">
+												<f:convertDateTime pattern="yyyy-MM-dd" />
+											</h:outputText>
+										</p:column>
+
+										<p:column headerText="Fecha Fin">
+											<h:outputText value="#{car.fechaFin}">
+												<f:convertDateTime pattern="yyyy-MM-dd" />
+											</h:outputText>
+										</p:column>
+
+										<p:column headerText="Cantidad">
+											<h:outputText value="#{car.cantidad}" />
+										</p:column>
+
+										<p:column headerText="Tipo">
+											<h:outputText value="Movimiento periódico" />
+										</p:column>
+
+										<p:column style="width:32px">
+											<p:commandButton id="ajax" icon="ui-icon-trash"
+												update=":carForm"
+												actionListener="#{calculadoraFuturoGestionManagedBean.borrar(car)}" />
+										</p:column>
+									</p:dataTable>
+								</p:outputPanel>
+							</p:fieldset>
+
+							<p:dialog header="Detalle de movimiento periódico"
+								widgetVar="movimientoPeriodicoPlanDialog" resizable="false"
+								draggable="false" showEffect="fade" hideEffect="fade"
+								modal="true">
+								<p:ajax event="close" update=":carForm" />
+								<p:outputPanel id="displayMovimientoPeriodico">
+									<h:panelGrid columns="2" cellpadding="5"
+										rendered="#{not empty calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan}">
+										<p:outputLabel for="descripcionMP2" value="Descripción:" />
+										<h:inputText required="true" id="descripcionMP1"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan.descripcion}" />
+										<p:outputLabel for="fechaInicioMP1" value="Fecha inicio:" />
+										<p:calendar id="fechaInicioMP1" required="true"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan.fechaInicio}"
+											navigator="true" pattern="yyyy-MM-dd" />
+										<p:outputLabel for="fechaFinMP1" value="Fecha fin:" />
+										<p:calendar id="fechaFinMP1" required="true"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan.fechaFin}"
+											navigator="true" pattern="yyyy-MM-dd" />
+										<p:outputLabel for="saldoMP1" value="Saldo:" />
+										<h:inputText required="true" id="saldoMP1"
+											value="#{calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan.cantidad}" />
+									</h:panelGrid>
+								</p:outputPanel>
+
+								<div class="actionButtons">
+									<p:commandButton value="Modificar sin actualizar"
+										action="#{calculadoraFuturoGestionManagedBean.actualizarDatosMovimientoPeriodico(calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan)}"
+										oncomplete="if (!args.validationFailed) {PF('movimientoPeriodicoPlanDialog').hide();}"
+										update=":carForm" icon="ui-icon-pencil" />
+									<p:commandButton value="Modificar actualizando"
+										action="#{calculadoraFuturoGestionManagedBean.actualizarBDDatosMovimientoPeriodico(calculadoraFuturoGestionManagedBean.selectedMovimientoPeriodicoPlan)}"
+										oncomplete="if (!args.validationFailed) {PF('movimientoPeriodicoPlanDialog').hide();}"
+										update=":carForm" icon="ui-icon-pencil" />
+								</div>
+
+							</p:dialog>
+
+						</h:panelGrid>
+
+						<p:droppable for="selectedCars2" tolerance="touch"
+							activeStyleClass="ui-state-highlight" datasource="availableCars2"
+							onDrop="handleDrop">
+							<p:ajax
+								listener="#{calculadoraFuturoGestionManagedBean.onMovimientoPeriodicoPlanDrop}"
+								update="dropArea2 availableCars2" />
+						</p:droppable>
+					</p:panel>
+
+				</p:tab>
+				<p:tab id="contact" title="Solicitud">
+					<p:panel header="Solicitud de proceso">
+
+						<div class="actionButtons">
+							<p:commandButton value="Cálculo"
+								action="#{calculadoraFuturoGestionManagedBean.calcularPlan()}"
+								update=":carForm" icon="ui-icon-calculator" />
+							<!-- Para poder sacar un informe no se puede hacer uso de llamada ajax -->
+							<p:commandButton value="Informe"
+								actionListener="#{calculadoraFuturoGestionManagedBean.informePlan()}"
+								ajax="false" type="submit" icon=" ui-icon-document" />
+
+							<p:commandButton update=":form4:displayNewMovPlan"
+								actionListener="#{calculadoraFuturoGestionManagedBean.inicializarPlan()}"
+								oncomplete="PF('planFuturoDialog').show()" value="Guardar plan"
+								icon="ui-icon-disk">
+								<p:resetInput target=":form7:displayNewPlanFuturo" />
+							</p:commandButton>
+						</div>
+						<br />
+						<p:dataGrid var="mvp"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPlansListDropped}"
+							columns="6" layout="grid" rows="12" paginator="true" id="mvpid"
+							rendered="#{not empty calculadoraFuturoGestionManagedBean.movimientoPlansListDropped}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="6,12,16">
+							<f:facet name="header">
+            					Movimientos a fecha
+					        </f:facet>
+							<p:panel style="text-align:center">
+								<h:panelGrid columns="1" style="width:100%">
+									<h:outputText value="#{mvp.descripcion}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+						<br />
+						<p:dataGrid var="mvpp"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoPlansListDropped}"
+							columns="6" layout="grid" rows="12" paginator="true" id="mvppid"
+							rendered="#{not empty calculadoraFuturoGestionManagedBean.movimientoPeriodicoPlansListDropped}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="6,12,16">
+							<f:facet name="header">
+            					Movimientos periódicos
+					        </f:facet>
+							<p:panel style="text-align:center">
+								<h:panelGrid columns="1" style="width:100%">
+									<h:outputText value="#{mvpp.descripcion}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+					</p:panel>
+				</p:tab>
+			</p:wizard>
+
+			<!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+			<p:panel id="resumen" header="Resumen de saldo"
+				rendered="#{not empty calculadoraFuturoGestionManagedBean.tablaResultados}">
+
+				<h:outputText value="Saldo inicial a fecha " />
+
+				<h:outputText
+					value="#{calculadoraFuturoGestionManagedBean.dameSaldoInicialFecha()}: ">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+				</h:outputText>
+				<h:outputText
+					value="#{calculadoraFuturoGestionManagedBean.dameSaldoInicialSaldo()}"
+					style="font-weight:bold" />
+				<br />
+				<br />
+				<h:outputText value="Saldo final a fecha" />
+				<h:outputText
+					value="#{calculadoraFuturoGestionManagedBean.dameSaldoFinalFecha()}: ">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+				</h:outputText>
+				<h:outputText
+					value="#{calculadoraFuturoGestionManagedBean.dameSaldoFinalSaldo()}"
+					style="font-weight:bold" />
+
+			</p:panel>
+
+			<br />
+			<br />
+
+
+			<p:fieldset id="resultfield"
+				rendered="#{not empty calculadoraFuturoGestionManagedBean.tablaResultados}"
+				legend="Resultado de los cálculos con el plan seleccionado">
+
+				<p:dataTable var="resultados"
+					value="#{calculadoraFuturoGestionManagedBean.tablaResultados}"
+					lazy="false" id="table"
+					rendered="#{not empty calculadoraFuturoGestionManagedBean.tablaResultados}">
+					<p:column headerText="Fecha">
+						<h:outputText value="#{resultados.fecha}">
+							<f:convertDateTime pattern="yyyy-MM-dd" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Saldo">
+						<h:outputText value="#{resultados.saldo}" />
+					</p:column>
+
+
+					<p:column headerText="Eventos por movimientos">
+						<p:dataList value="#{resultados.eventos}" var="evento"
+							type="ordered" rendered="#{not empty resultados.eventos}">
+			        #{evento}
+			    </p:dataList>
+					</p:column>
+
+				</p:dataTable>
+			</p:fieldset>
+		</h:form>
+
+
+
+
+
+
+		<p:dialog header="Detalle de plan" widgetVar="planFuturoDialog"
+			resizable="false" draggable="false" showEffect="fade"
+			hideEffect="fade" modal="true">
+			<h:form id="form7">
+				<p:outputPanel id="displayNewPlanFuturo">
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel for="descripcionPlan" value="Descripción:" />
+						<h:inputText id="descripcionPlan" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.plan.descripcionPlan}" />
+					</h:panelGrid>
+				</p:outputPanel>
+
+				<div class="actionButtons">
+					<p:commandButton value="Guardar"
+						action="#{calculadoraFuturoGestionManagedBean.grabarPlanFuturo()}"
+						oncomplete="if (!args.validationFailed) {PF('planFuturoDialog').hide();}"
+						update=":carForm" icon="ui-icon-disk" />
+				</div>
+			</h:form>
+		</p:dialog>
+
+
+
+
+		<p:dialog header="Detalle de movimiento"
+			widgetVar="movimientoNuevoPlanDialog" resizable="false"
+			draggable="false" showEffect="fade" hideEffect="fade" modal="true">
+			<h:form id="form4">
+				<p:outputPanel id="displayNewMovPlan">
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel for="descripcionM" value="Descripción:" />
+						<h:inputText id="descripcionM" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoNuevo.descripcion}" />
+						<p:outputLabel for="fechaInicioM" value="Fecha inicio:" />
+						<p:calendar id="fechaInicioM" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoNuevo.fechaInicio}"
+							navigator="true" pattern="yyyy-MM-dd" />
+						<p:outputLabel for="cantidadM" value="Cantidad:" />
+						<h:inputText id="cantidadM" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoNuevo.totalMovimiento}" />
+
+						<p:outputLabel for="divisaM" value="Divisa:" />
+						<h:inputText id="divisaM" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoNuevo.divisa}" />
+
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="3">
+
+
+						<p:outputLabel for="signoMovimientoM" value="Signo movimiento:" />
+						<p:selectOneMenu id="signoMovimientoM" style="width: 154px;"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoNuevo.signoMovimiento}">
+							<f:selectItem itemLabel="-- Seleccione signo--" itemValue="" />
+							<f:selectItem itemLabel="SUMA" itemValue="AA" />
+							<f:selectItem itemLabel="RESTA" itemValue="BB" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+				</p:outputPanel>
+
+				<div class="actionButtons">
+					<p:commandButton value="Grabar"
+						action="#{calculadoraFuturoGestionManagedBean.grabarMovimientoPlan()}"
+						oncomplete="if (!args.validationFailed) {PF('movimientoNuevoPlanDialog').hide();}"
+						update=":carForm" icon="ui-icon-pencil" />
+				</div>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog header="Detalle de movimiento periodico"
+			widgetVar="movimientoPeriodicoNuevoPlanDialog" resizable="false"
+			draggable="false" showEffect="fade" hideEffect="fade" modal="true">
+			<h:form id="form5">
+				<p:outputPanel id="displayNewMovPeriodicoPlan">
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel for="descripcionMP" value="Descripción:" />
+						<h:inputText id="descripcionMP" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.descripcion}" />
+						<p:outputLabel for="fechaInicioMP" value="Fecha inicio:" />
+						<p:calendar id="fechaInicioMP" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.fechaInicio}"
+							navigator="true" pattern="yyyy-MM-dd" />
+						<p:outputLabel for="fechaFinMP" value="Fecha fin:" />
+						<p:calendar id="fechaFinMP" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.fechaFin}"
+							navigator="true" pattern="yyyy-MM-dd" />
+						<p:outputLabel for="cantidadMP" value="Cantidad:" />
+						<h:inputText id="cantidadMP" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.cantidad}" />
+
+						<p:outputLabel for="divisaMP" value="Divisa:" />
+						<h:inputText id="divisaMP" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.divisa}" />
+
+						<p:outputLabel for="diaEjecucionMP"
+							value="Día ejecución en el mes:" />
+						<h:inputText id="diaEjecucionMP" required="true"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.diaEjecucion}" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="3">
+						<p:outputLabel for="tipoMovimientoMP" value="Tipo movimiento" />
+						<p:selectOneMenu id="tipoMovimientoMP" style="width: 154px;"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.tipoMovimiento}">
+							<f:selectItem
+								itemLabel="-- Seleccione tipo movimiento periódico--"
+								itemValue="" />
+							<f:selectItem itemLabel="Mov. Periódico" itemValue="MO" />
+							<f:selectItem itemLabel="Nómina" itemValue="MO" />
+							<f:selectItem itemLabel="Paro" itemValue="PA" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="signoMovimientoMP" value="Signo movimiento:" />
+						<p:selectOneMenu id="signoMovimientoMP" style="width: 154px;"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.signoMovimiento}">
+							<f:selectItem itemLabel="-- Seleccione signo--" itemValue="" />
+							<f:selectItem itemLabel="SUMA" itemValue="AA" />
+							<f:selectItem itemLabel="RESTA" itemValue="BB" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="periodidadEjecucionMP" value="Periodicidad:" />
+						<p:selectOneMenu id="periodidadEjecucionMP" style="width: 154px;"
+							value="#{calculadoraFuturoGestionManagedBean.movimientoPeriodicoNuevo.periodidadEjecucion}">
+							<f:selectItem itemLabel="-- Seleccione signo--" itemValue="" />
+							<f:selectItem itemLabel="DIARIA" itemValue="AA" />
+							<f:selectItem itemLabel="MENSUAL" itemValue="BB" />
+							<f:selectItem itemLabel="TRIMESTRAL" itemValue="CC" />
+							<f:selectItem itemLabel="ANUAL" itemValue="DD" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+
+
+				</p:outputPanel>
+
+				<div class="actionButtons">
+					<p:commandButton value="Grabar"
+						action="#{calculadoraFuturoGestionManagedBean.grabarMovimientoPeriodicoPlan()}"
+						update=":carForm" icon="ui-icon-pencil"
+						oncomplete="if (!args.validationFailed) {PF('movimientoPeriodicoNuevoPlanDialog').hide();}" />
+
+				</div>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

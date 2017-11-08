@@ -1,0 +1,36 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/pages/templates/template.xhtml">
+	<ui:define name="body">
+
+
+		<h:form>
+		
+			<h:outputLabel for="email1" value="E-mail" />
+            <p:inputText id="email1" value="#{customValidationView.mailAddress}">
+                <f:validator validatorId="emailValidator" />
+            </p:inputText>
+            <p:message for="email1" display="tooltip" />
+            
+            <h:outputLabel for="email2" value="Confirmación mail" />
+            <p:inputText id="email2" value="#{customValidationView.email}" >
+                <f:validator validatorId="emailValidator" />
+            </p:inputText>
+            <p:message for="email2" display="tooltip" />
+            
+			<p:messages showDetail="true" />
+			<p:captcha label="Captcha" />
+			<p:commandButton value="Check" actionListener="#{captchaView.submit}"
+				ajax="false" icon="ui-icon-check" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

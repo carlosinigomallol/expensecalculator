@@ -1,0 +1,128 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx 
+		        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		        http://www.springframework.org/schema/context 
+		        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/calculadoraFuturo" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
+		<property name="maxPoolSize" value="5" />
+		<property name="maxStatements" value="0" />
+		<property name="minPoolSize" value="1" />
+	</bean>
+
+	<!-- Session Factory Declaration -->
+	<bean id="SessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="es.calculadoragastos.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SybaseASE15Dialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.cache.use_structured_entries">false</prop>
+				<prop key="hibernate.cache.region_prefix"></prop>
+			</props>
+		</property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Transaction Manager is defined -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+
+	<bean id="UsuarioService" class="es.expensecalculator.service.UsuarioService">
+		<property name="usuarioDAO" ref="UsuarioDAO" />
+	</bean>
+
+	<bean id="UsuarioDAO" class="es.expensecalculator.dao.UsuarioDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoService" class="es.expensecalculator.service.MovimientoService">
+		<property name="movimientoDAO" ref="MovimientoDAO" />
+	</bean>
+
+	<bean id="MovimientoDAO" class="es.expensecalculator.dao.MovimientoDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+
+	<bean id="MovimientoPlanService" class="es.expensecalculator.service.MovimientoPlanService">
+		<property name="movimientoPlanDAO" ref="MovimientoPlanDAO" />
+	</bean>
+
+	<bean id="MovimientoPlanDAO" class="es.expensecalculator.dao.MovimientoPlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanService"
+		class="es.expensecalculator.service.MovimientoPeriodicoPlanService">
+		<property name="movimientoPeriodicoPlanDAO" ref="MovimientoPeriodicoPlanDAO" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanDAO" class="es.expensecalculator.dao.MovimientoPeriodicoPlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="CalculadoraPlanService" class="es.expensecalculator.service.CalculadoraPlanService">
+		<property name="calculadoraPlanDAO" ref="CalculadoraPlanDAO" />
+	</bean>
+
+	<bean id="CalculadoraPlanDAO" class="es.expensecalculator.dao.CalculadoraPlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="PlanService" class="es.expensecalculator.service.PlanService">
+		<property name="planDAO" ref="PlanDAO" />
+	</bean>
+
+	<bean id="PlanDAO" class="es.expensecalculator.dao.PlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoImagenService" class="es.expensecalculator.service.MovimientoImagenService">
+		<property name="movimientoImagenDAO" ref="MovimientoImagenDAO" />
+	</bean>
+
+	<bean id="MovimientoImagenDAO" class="es.expensecalculator.dao.MovimientoImagenDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+
+	<bean id="MovimientoPlanImagenService"
+		class="es.expensecalculator.service.MovimientoPlanImagenService">
+		<property name="movimientoPlanImagenDAO" ref="MovimientoPlanImagenDAO" />
+	</bean>
+
+	<bean id="MovimientoPlanImagenDAO" class="es.expensecalculator.dao.MovimientoPlanImagenDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanImagenService"
+		class="es.expensecalculator.service.MovimientoPeriodicoPlanImagenService">
+		<property name="movimientoPeriodicoPlanImagenDAO" ref="MovimientoPeriodicoPlanImagenDAO" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanImagenDAO"
+		class="es.expensecalculator.dao.MovimientoPeriodicoPlanImagenDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+</beans>

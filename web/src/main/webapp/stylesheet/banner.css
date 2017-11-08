@@ -1,0 +1,55 @@
+.headerBanner {
+	background: -moz-radial-gradient(transparent 20%, rgb(167, 167, 167) 90%,
+		white), url(../img/Calculadora.jpg) no-repeat;
+	background: -webkit-radial-gradient(transparent 20%, rgb(167, 167, 167)
+		90%, white), url(../img/Calculadora.jpg) no-repeat;
+	background: -o-radial-gradient(transparent 20%, rgb(167, 167, 167) 90%,
+		white), url(../img/Calculadora.jpg) no-repeat;
+	background: -ms-radial-gradient(transparent 20%, rgb(167, 167, 167) 90%,
+		white), url(../img/Calculadora.jpg) no-repeat;
+	background: radial-gradient(transparent 20%, rgb(167, 167, 167) 90%,
+		white), url(../img/Calculadora.jpg) no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.header-buttons {
+	background: 0 0;
+	border-radius: 25px;
+	box-shadow: 0 0 0 white, 0 0 8px 8px #fef7f7;
+	text-shadow: 2px 2px #030303;
+	box-sizing: border-box;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 19pt;
+	font-family: pp-sans-small-medium, Helvetica Neue, Arial, sans-serif;
+	line-height: 9pt;
+	min-width: 84px;
+	overflow: hidden;
+	padding: 10pt 20px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	-ms-touch-action: none;
+	touch-action: none;
+	vertical-align: middle;
+	font-weight: bold;
+	-webkit-text-stroke: 0.6px black;
+	margin-top: 50px;
+}
+
+a.header-buttons:hover {
+	box-shadow: 0 0 0 white, 0 0 10px  10px #fef7f7;
+	background-color: rgb(167, 167, 167, 167);
+	cursor: pointer;
+	-webkit-transition: background-color 1s ease-out;
+	-moz-transition: background-color 1s ease-out;
+	-o-transition: background-color 1s ease-out;
+	transition: background-color 1s ease-out;
+}
+
+.colocacionEnlaces {
+	width: 400px;
+	margin: 0 auto;
+}

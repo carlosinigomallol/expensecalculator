@@ -1,0 +1,28 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"    
+    template="/pages/templates/simple-template.xhtml">
+
+	<ui:define name="body">
+		<p:spacer height="100" />
+		<div style="width:300px; margin-left: auto; margin-right: auto;">
+			<h:form>
+		        <p:panel>
+		            <f:facet name="header">Aviso</f:facet>
+		            <p:spacer height="20" />
+		            <h3>Sesión expirada</h3>
+		            <p:spacer height="20" />
+					<div class="actionButtons">
+						<p:commandButton id="loggout2" value="Logout"
+							action="#{authenticator.logout()}" icon="ui-icon-extlink" />
+		            </div>
+		        </p:panel>
+	        </h:form>
+		 </div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<authorization>
+	<roles>
+		<role id="consulta">
+			<permission-id>emisora.view</permission-id>
+		</role>
+
+		<role id="operador">
+			<permission-id>emisora.view</permission-id>
+		</role>
+
+		<role id="supervisor">
+			<permission-id>emisora.view</permission-id>
+		</role>
+	</roles>
+</authorization>

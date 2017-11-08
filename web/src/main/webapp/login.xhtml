@@ -1,0 +1,44 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/templates/simple-template.xhtml">
+
+	<ui:define name="body">
+		<p:spacer height="100" />
+		<div style="width: 500px; margin-left: auto; margin-right: auto;">
+			<h:form>
+				<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+				<p:panel>
+					<f:facet name="header">Control de seguridad</f:facet>
+					<div class="dialog" align="center">
+					   <h:graphicImage value="img/calculatorIcon.png" style="margin-bottom:3%; margin-left:-50%; margin-top:3%;"/>
+						
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="username" value="Usuario (cuenta de correo):" />
+							<p:inputText id="username" value="#{authenticator.username}"
+								required="true" label="username" />
+
+							<h:outputLabel for="password" value="Password:" />
+							<p:password id="password" value="#{authenticator.password}"
+								required="true" label="password" />
+
+						</h:panelGrid>
+					</div>
+
+					<div class="actionButtons" align="center">
+						<p:commandButton id="submit" value="Acceder" update="growl"
+							action="#{authenticator.login()}">
+						</p:commandButton>
+						<p:button value="Volver" 
+							outcome="/initial.xhtml?faces-redirect=true" />
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

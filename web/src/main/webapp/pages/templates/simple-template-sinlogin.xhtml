@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<ui:insert name="metadata" />
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/stylesheet/banner.css" type="text/css"
+			media="screen" />
+		<title><h:outputText value="Expense calculator" /></title>
+		<ui:insert name="head" />
+	</h:head>
+	<h:body>
+		<div id="container" class="headerBanner">
+			<div id="header">
+				<ui:include src="/pages/templates/headerInitial.xhtml" />
+			</div>
+			<div id="body">
+				
+				<div class="colocacionEnlaces">
+					<a class="header-buttons" href="login.xhtml">Entrar</a> <a class="header-buttons"  href="/expensecalculator/pages/expensecalculator/GestionCuenta.xhtml">Crear cuenta</a>
+				</div>
+				<br />
+			</div>
+			<div id="footer">
+				<ui:include src="/pages/templates/footer.xhtml" />
+			</div>
+		</div>
+	</h:body>
+</f:view>
+</html>

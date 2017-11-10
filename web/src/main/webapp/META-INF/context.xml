@@ -15,11 +15,6 @@
 	<!-- Default set of monitored resources -->
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
 
-	<Resource auth="Container" type="javax.sql.DataSource"
-        driverClassName="com.mysql.jdbc.Driver"
-		maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/test"
-		password="root" resource="resource" 
-		url="jdbc:mysql://localhost:3306/calculadoraFuturo" username="root"></Resource>
 	<!-- Uncomment this to disable session persistence across Tomcat restarts -->
 	<!-- <Manager pathname="" /> -->
 

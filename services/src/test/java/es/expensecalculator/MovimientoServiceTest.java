@@ -14,8 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import es.expensecalculator.model.Movimiento;
+import es.expensecalculator.model.Usuario;
 import es.expensecalculator.model.enums.SignoMovimiento;
 import es.expensecalculator.service.IMovimientoService;
+import es.expensecalculator.service.IUsuarioService;
 import es.expensecalculator.web.param.MovimientoParam;
 
 
@@ -27,6 +29,11 @@ public class MovimientoServiceTest {
     IMovimientoService movimientoService;
     
     
+    @Autowired
+    IUsuarioService usuarioService;
+    
+    
+    
     
 
     @Test
@@ -36,6 +43,12 @@ public class MovimientoServiceTest {
         List<Movimiento> lista = null;
         Movimiento movimiento = getMovimiento();
         MovimientoParam movimientoParam = new MovimientoParam();
+        Usuario usuario = new Usuario();
+        usuario.setName("name");
+        usuario.setLogin("login");
+        usuario.setPassword("password");
+        usuarioService.addUsuario(usuario);
+        movimiento.setUsuario(usuario);
         lista = movimientoService.getMovimientoListWithRestrictions(movimientoParam);
         for(Movimiento mo: lista){
         	System.out.println(mo);

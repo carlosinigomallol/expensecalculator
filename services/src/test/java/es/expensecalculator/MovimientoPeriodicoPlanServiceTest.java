@@ -14,9 +14,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import es.expensecalculator.model.MovimientoPeriodicoPlan;
+import es.expensecalculator.model.Usuario;
 import es.expensecalculator.model.enums.Periodicidad;
 import es.expensecalculator.model.enums.SignoMovimiento;
 import es.expensecalculator.service.IMovimientoPeriodicoPlanService;
+import es.expensecalculator.service.IUsuarioService;
 import es.expensecalculator.web.param.MovimientoPeriodicoPlanParam;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,12 +28,21 @@ public class MovimientoPeriodicoPlanServiceTest {
 	@Autowired
 	IMovimientoPeriodicoPlanService movimientoPeriodicoPlanService;
 
+	@Autowired
+	IUsuarioService usuarioService;
+	
 	@Test
 	public void testMovimientoPeriodicoPlanService() {
 
 		Long id = null;
 		List<MovimientoPeriodicoPlan> lista = null;
 		MovimientoPeriodicoPlan movimiento = getMovimientoPeriodicoPlan();
+		Usuario usuario = new Usuario();
+        usuario.setName("name");
+        usuario.setLogin("login");
+        usuario.setPassword("password");
+        usuarioService.addUsuario(usuario);
+        movimiento.setUsuario(usuario);
 		MovimientoPeriodicoPlanParam movimientoParam = new MovimientoPeriodicoPlanParam();
 		movimientoPeriodicoPlanService.addMovimientoPeriodicoPlan(movimiento);
 

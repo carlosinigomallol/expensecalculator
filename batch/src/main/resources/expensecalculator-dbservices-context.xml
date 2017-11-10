@@ -13,7 +13,7 @@
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="driverClass" value="${db.driver}" />
 		<property name="jdbcUrl" value="${db.url}" />
 		<property name="user" value="${db.user}" />
 		<property name="password" value="${db.password}" />
@@ -29,7 +29,7 @@
 		<property name="packagesToScan" value="es.expensecalculator.model" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.SybaseASE15Dialect</prop>
+				<prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${db.showsql}</prop>
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.cache.use_second_level_cache">false</prop>

@@ -23,7 +23,7 @@ public class TestInformeJasper {
 	@Test
 	public void test2() throws FileNotFoundException, JRException{
 		GeneradorInformes generadorInformes = new GeneradorInformes();
-		FileOutputStream fileOutputStream =new FileOutputStream(new File("/home/carlos/Escritorio/pp4.pdf"));
+		FileOutputStream fileOutputStream =new FileOutputStream(new File("target/pp4.pdf"));
 		List<TablaResultados> tablaResultados = new ArrayList<TablaResultados>();
 		TablaResultados tab = new TablaResultados();
 		tab.setFecha(new Date());

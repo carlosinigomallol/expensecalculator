@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.3.final using JasperReports Library version 6.0.3  -->
-<!-- 2017-06-13T16:47:34 -->
+<!-- 2017-11-10T13:15:52 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2d8d361d-878c-40a0-ae02-055da4b4f6d7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<style name="Title" forecolor="#FFFFFF" fontName="Verdana" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
-	<style name="SubTitle" forecolor="#CCCCCC" fontName="Verdana" fontSize="18" isBold="false" pdfFontName="Verdana"/>
-	<style name="Column header" forecolor="#666666" fontName="Verdana" fontSize="14" isBold="true" pdfFontName="Verdana"/>
-	<style name="Detail" mode="Transparent" fontName="Verdana" pdfFontName="Verdana"/>
-	<style name="Row" mode="Transparent" fontName="Verdana" pdfFontName="Verdana">
+	<style name="Title" forecolor="#FFFFFF" fontName="DejaVu Sans" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="DejaVu Sans" fontSize="18" isBold="false" pdfFontName="DejaVu Sans"/>
+	<style name="Column header" forecolor="#666666" fontName="DejaVu Sans" fontSize="14" isBold="true" pdfFontName="DejaVu Sans"/>
+	<style name="Detail" mode="Transparent" fontName="DejaVu Sans" pdfFontName="DejaVu Sans"/>
+	<style name="Row" mode="Transparent" fontName="DejaVu Sans" pdfFontName="DejaVu Sans">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#F0EFEF"/>
@@ -83,7 +83,7 @@
 				<staticText>
 					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="28b2a0c9-a5ff-452a-bc30-718151427cb4"/>
 					<textElement textAlignment="Right">
-						<font size="22" isBold="false"/>
+						<font fontName="DejaVu Sans" size="22" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Informe de Saldos]]></text>
 				</staticText>
@@ -93,7 +93,7 @@
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement x="553" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="8fc5393e-3349-4b26-9c7f-1c39272fe5eb"/>
 					<textElement textAlignment="Right">
-						<font size="12"/>
+						<font fontName="DejaVu Sans" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
@@ -167,7 +167,9 @@
 						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.0"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="12"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00#">
@@ -232,21 +234,21 @@
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="1b0d1821-e776-48c7-b25c-e77485bb9056"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" uuid="f2d8a52c-f2ac-46e9-a1c4-db5db2497044"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="bc803d7f-1e8d-465f-9bb4-a5985eae2267"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>

@@ -1,67 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<contextName>ExpenseCalculator</contextName>
-
+	<contextName>EXPENSE CALCULATOR LOG</contextName>
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>%date{ISO8601} %X{user} | %5level %40.40logger - %message%n</Pattern>
+			<Pattern>[EXCALC]|%date{HH:mm:ss.SSS} %-5level|
+				%class.%method\(\):%msg%n</Pattern>
 		</encoder>
 	</appender>
-    	
-	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<Prudent>true</Prudent>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>%date{ISO8601} %X{user} | %5level %40.40logger - %message%n</Pattern>
-		</encoder>		
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>/home/carlos/Escritorio/expensecalculator.%d.log</FileNamePattern>
-			<!-- keep 10 days worth of history -->
-			<MaxHistory>10</MaxHistory>
-		</rollingPolicy>
-	</appender>
-	
-	<appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<Prudent>true</Prudent>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>%date{ISO8601} %X{user} | %5level %40.40logger - %message%n</Pattern>
-		</encoder>		
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>/home/carlos/Escritorio/expensecalculator.access.%d{yyyy-MM}.log</FileNamePattern>
-			<!-- keep 10 days worth of history -->
-			<MaxHistory>12</MaxHistory>
-		</rollingPolicy>
-	</appender>
-	
 	<logger name="es.expensecalculator" level="INFO">
-		<appender-ref ref="FILE" />
 		<appender-ref ref="CONSOLE" />
 	</logger>
-	
-	<!-- Para loguear accesos a la aplicación en fichero datamart.access.log. -->	
-	<logger name="es.rbcdexia.security.client.services.SecurityServiceRest" level="INFO">
-		<appender-ref ref="ACCESS" />
-	</logger>
-
-	<!-- logueamos todas las trazas del servidor de seguridad. incluidas las de arriba a fichero y consola -->
-	<logger name="es.rbcdexia.security.client" level="INFO">
-		<appender-ref ref="FILE" />
-		<appender-ref ref="CONSOLE" />
-	</logger>
-
-    <logger name="net.sf.jasperreports" level="INFO">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="net.sf.serfj" level="ERROR">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-	<logger name="org.springframework" level="WARN">
-		<appender-ref ref="FILE" />
-		<appender-ref ref="CONSOLE" />
-	</logger>
-
-	<root level="INFO" />
+	<root level="ERROR" />
 </configuration>

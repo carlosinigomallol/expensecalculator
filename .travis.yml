@@ -4,6 +4,6 @@ script: mvn clean verify
 notifications:
    email:
       recipients:
-        - carlos.mallol@gmail.com
+        - carlos.mallol@bancoval.com
       on_success: never
 on_faliure: always

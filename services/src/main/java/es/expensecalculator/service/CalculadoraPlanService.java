@@ -29,11 +29,7 @@ public class CalculadoraPlanService implements ICalculadoraPlanService {
 		this.calculadoraPlanDAO = calculadoraPlanDAO;
 	}
 
-	@Override
-	public BigDecimal calcularSaldoActual(Date fechaPeticionCalculoPlan, Usuario usuario) {
-		// TODO Auto-generated method stub
-		return calculadoraPlanDAO.calcularSaldoActual(fechaPeticionCalculoPlan, usuario);
-	}
+	
 
 	@Override
 	public EstructuraSaldos calculadoraTotalGastosPlanes(List<MovimientoPlanBean> movimientoPlans, 

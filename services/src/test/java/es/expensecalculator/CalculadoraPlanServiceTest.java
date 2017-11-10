@@ -35,12 +35,7 @@ public class CalculadoraPlanServiceTest {
 	@Autowired
 	IMovimientoPeriodicoPlanService movimientoPeriodicoPlanService;
 
-	@Test
-	public void testCalcularSaldoActual() {
-		System.out.println("SALDO CON MOVIMIENTOS: "
-				+ calculadoraPlanService.calcularSaldoActual(new Date(System.currentTimeMillis()), null));
-	}
-
+	
 	@Test
 	public void testConMovimientosPlan () throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

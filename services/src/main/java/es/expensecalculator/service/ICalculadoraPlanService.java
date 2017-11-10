@@ -16,7 +16,6 @@ import es.expensecalculator.model.enums.TipoMovimiento;
 public interface ICalculadoraPlanService {
 
 	
-	public BigDecimal calcularSaldoActual(Date fechaPeticionCalculoPlan, Usuario usuario);
 	public EstructuraSaldos calculadoraTotalGastosPlanes(
 			List<MovimientoPlanBean> movimientoPlans,
 			Date fechaPeticionCalculoPlan, TipoMovimiento tipoMovimiento, List<MovimientoPeriodicoPlanBean> movimientoPeriodicoPlans, Usuario usuario, MovimientoBean movimientoBean);

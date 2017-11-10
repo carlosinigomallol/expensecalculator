@@ -6,4 +6,4 @@ notifications:
       recipients:
         - carlos.mallol@gmail.com
       on_success: never
-	  on_faliure: always
+on_faliure: always

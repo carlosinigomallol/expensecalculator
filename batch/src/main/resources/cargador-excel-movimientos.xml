@@ -9,7 +9,7 @@
 		        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- Configuración propia del proceso -->
-	<bean id="cargadorExcelMovimientosController" class="es.calculadoragastos.process.CargadorExcelMovimientosController">
+	<bean id="cargadorExcelMovimientosController" class="es.expensecalculator.process.CargadorExcelMovimientosController">
 		<property name="movimientoService" ref="MovimientoService"/>
 	</bean>
 </beans>

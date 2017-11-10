@@ -49,11 +49,81 @@
 	</bean>
 
 
+	<bean id="UsuarioService" class="es.expensecalculator.service.UsuarioService">
+		<property name="usuarioDAO" ref="UsuarioDAO" />
+	</bean>
+
+	<bean id="UsuarioDAO" class="es.expensecalculator.dao.UsuarioDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
 	<bean id="MovimientoService" class="es.expensecalculator.service.MovimientoService">
 		<property name="movimientoDAO" ref="MovimientoDAO" />
 	</bean>
 
 	<bean id="MovimientoDAO" class="es.expensecalculator.dao.MovimientoDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+
+	<bean id="MovimientoPlanService" class="es.expensecalculator.service.MovimientoPlanService">
+		<property name="movimientoPlanDAO" ref="MovimientoPlanDAO" />
+	</bean>
+
+	<bean id="MovimientoPlanDAO" class="es.expensecalculator.dao.MovimientoPlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanService"
+		class="es.expensecalculator.service.MovimientoPeriodicoPlanService">
+		<property name="movimientoPeriodicoPlanDAO" ref="MovimientoPeriodicoPlanDAO" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanDAO" class="es.expensecalculator.dao.MovimientoPeriodicoPlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="CalculadoraPlanService" class="es.expensecalculator.service.CalculadoraPlanService">
+		<property name="calculadoraPlanDAO" ref="CalculadoraPlanDAO" />
+	</bean>
+
+	<bean id="CalculadoraPlanDAO" class="es.expensecalculator.dao.CalculadoraPlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="PlanService" class="es.expensecalculator.service.PlanService">
+		<property name="planDAO" ref="PlanDAO" />
+	</bean>
+
+	<bean id="PlanDAO" class="es.expensecalculator.dao.PlanDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoImagenService" class="es.expensecalculator.service.MovimientoImagenService">
+		<property name="movimientoImagenDAO" ref="MovimientoImagenDAO" />
+	</bean>
+
+	<bean id="MovimientoImagenDAO" class="es.expensecalculator.dao.MovimientoImagenDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+
+	<bean id="MovimientoPlanImagenService"
+		class="es.expensecalculator.service.MovimientoPlanImagenService">
+		<property name="movimientoPlanImagenDAO" ref="MovimientoPlanImagenDAO" />
+	</bean>
+
+	<bean id="MovimientoPlanImagenDAO" class="es.expensecalculator.dao.MovimientoPlanImagenDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanImagenService"
+		class="es.expensecalculator.service.MovimientoPeriodicoPlanImagenService">
+		<property name="movimientoPeriodicoPlanImagenDAO" ref="MovimientoPeriodicoPlanImagenDAO" />
+	</bean>
+
+	<bean id="MovimientoPeriodicoPlanImagenDAO"
+		class="es.expensecalculator.dao.MovimientoPeriodicoPlanImagenDAO">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 

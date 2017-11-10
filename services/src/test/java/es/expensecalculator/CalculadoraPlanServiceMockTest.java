@@ -8,7 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import es.expensecalculator.dao.EstructuraSaldos;
+import es.expensecalculator.dao.SaldoEventosBean;
 import es.expensecalculator.model.MovimientoBean;
 import es.expensecalculator.model.MovimientoPeriodicoPlanBean;
 import es.expensecalculator.model.MovimientoPlanBean;
@@ -53,7 +57,7 @@ public class CalculadoraPlanServiceMockTest {
 		movimientoPlanBean.setTipoentorno(TipoEntorno.MOVIMIENTO);
 		movimientoPlanBean.setTipoMovimiento(TipoMovimiento.MOVIMIENTO_A_FECHA.getValue());
 		movimientoPlanBean.setTotalMovimiento(new BigDecimal("50"));
-		
+		movimientoPlans.add(movimientoPlanBean);
 		List<MovimientoPeriodicoPlanBean> movimientoPeriodicoPlans = new ArrayList<MovimientoPeriodicoPlanBean>();
 		MovimientoPeriodicoPlanBean movimientoPeriodicoPlanBean = new MovimientoPeriodicoPlanBean();
 		movimientoPeriodicoPlanBean.setCantidad(new BigDecimal("100"));
@@ -67,8 +71,8 @@ public class CalculadoraPlanServiceMockTest {
 		movimientoPeriodicoPlanBean.setSignoMovimiento(SignoMovimiento.NEGATIVO.getValue());
 		movimientoPeriodicoPlanBean.setTipoentorno(TipoEntorno.PLAN);
 		movimientoPeriodicoPlanBean.setTipoMovimiento(TipoMovimiento.MOVIMIENTO_PERIODICO.getValue());
-		
-		Date fechaPeticionCalculoPlan = new Date(System.currentTimeMillis());
+		movimientoPeriodicoPlans.add(movimientoPeriodicoPlanBean);
+		Date fechaPeticionCalculoPlan = simpleDateFormat.parse("2017-11-10");
 		TipoMovimiento tipoMovimiento = TipoMovimiento.NOMINA;
 		Usuario usuario = new Usuario();
 		MovimientoBean movimientoBean = new MovimientoBean();
@@ -84,9 +88,12 @@ public class CalculadoraPlanServiceMockTest {
 		movimientoBean.setTotalMovimiento(new BigDecimal("12000"));
 		
 		
-		calc.calculadoraTotalGastosPlanes(movimientoPlans, fechaPeticionCalculoPlan, tipoMovimiento, movimientoPeriodicoPlans, usuario, movimientoBean);
-		
-		
+		EstructuraSaldos estructuraSaldos = calc.calculadoraTotalGastosPlanes(movimientoPlans, fechaPeticionCalculoPlan, tipoMovimiento, movimientoPeriodicoPlans, usuario, movimientoBean);
+		TreeMap<Date, SaldoEventosBean> porDia  = estructuraSaldos.getPorDia();
+		Assert.assertTrue(!porDia.isEmpty() && porDia.size()>0);
+		Assert.assertTrue(!porDia.isEmpty() && porDia.size()>0);
+		Assert.assertEquals(porDia.get(fechaPeticionCalculoPlan).getSaldo(), new BigDecimal("12000"));
+		Assert.assertEquals(porDia.get(simpleDateFormat.parse("2020-01-01")).getSaldo(), new BigDecimal("10150"));
 	}
 
 }

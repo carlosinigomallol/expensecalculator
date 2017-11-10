@@ -25,6 +25,9 @@ public class MovimientoServiceTest {
 
     @Autowired
     IMovimientoService movimientoService;
+    
+    
+    
 
     @Test
     public void testMovimientoService() {
@@ -33,8 +36,11 @@ public class MovimientoServiceTest {
         List<Movimiento> lista = null;
         Movimiento movimiento = getMovimiento();
         MovimientoParam movimientoParam = new MovimientoParam();
+        lista = movimientoService.getMovimientoListWithRestrictions(movimientoParam);
+        for(Movimiento mo: lista){
+        	System.out.println(mo);
+        }
         movimientoService.addMovimiento(movimiento);
-
         lista = movimientoService.getMovimientoListWithRestrictions(movimientoParam);
         for(Movimiento mo: lista){
         	System.out.println(mo);

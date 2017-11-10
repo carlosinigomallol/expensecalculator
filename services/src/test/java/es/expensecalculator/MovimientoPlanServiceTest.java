@@ -29,7 +29,7 @@ public class MovimientoPlanServiceTest {
 		List<MovimientoPlan> lista = null;
 		MovimientoPlan movimiento = getMovimientoPlan();
 		MovimientoPlanParam movimientoParam = new MovimientoPlanParam();
-		movimientoService.addMovimientoPlan(movimiento);
+		//movimientoService.addMovimientoPlan(movimiento);
 		lista = movimientoService.getMovimientoPlanListWithRestrictions(movimientoParam);
 		for (MovimientoPlan mo : lista) {
 			System.out.println(mo);
